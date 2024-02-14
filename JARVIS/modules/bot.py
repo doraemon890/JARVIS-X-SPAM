@@ -128,3 +128,48 @@ async def addsudo(event):
     
     elif event.sender_id in SUDO_USERS:
         await event.reply("» BSDK SIRF JARVIS SUDO DE SKTA HAI...")
+
+X1.on(events.NewMessage(incoming=True, pattern=r"\%srmsudo(?: |$)(.*)" % hl))
+@X2.on(events.NewMessage(incoming=True, pattern=r"\%srmsudo(?: |$)(.*)" % hl))
+@X3.on(events.NewMessage(incoming=True, pattern=r"\%srmsudo(?: |$)(.*)" % hl))
+@X4.on(events.NewMessage(incoming=True, pattern=r"\%srmsudo(?: |$)(.*)" % hl))
+@X5.on(events.NewMessage(incoming=True, pattern=r"\%srmsudo(?: |$)(.*)" % hl))
+@X6.on(events.NewMessage(incoming=True, pattern=r"\%srmsudo(?: |$)(.*)" % hl))
+@X7.on(events.NewMessage(incoming=True, pattern=r"\%srmsudo(?: |$)(.*)" % hl))
+@X8.on(events.NewMessage(incoming=True, pattern=r"\%srmsudo(?: |$)(.*)" % hl))
+@X9.on(events.NewMessage(incoming=True, pattern=r"\%srmsudo(?: |$)(.*)" % hl))
+@X10.on(events.NewMessage(incoming=True, pattern=r"\%srmsudo(?: |$)(.*)" % hl))
+async def removesudo(event):
+    if event.sender_id == OWNER_ID:
+        Heroku = heroku3.from_key(HEROKU_API_KEY)
+        sudousers = getenv("SUDO_USERS", default=None)
+
+        ok = await event.reply(f"» __Jarvis remove ho  rha hai..__")
+        target = ""
+        if HEROKU_APP_NAME is not None:
+            app = Heroku.app(HEROKU_APP_NAME)
+        else:
+            await ok.edit("`[HEROKU]:" "\nPlease Setup Your` **HEROKU_APP_NAME**")
+            return
+        heroku_var = app.config()
+        if event is None:
+            return
+        try:
+            reply_msg = await event.get_reply_message()
+            target = reply_msg.sender_id
+        except:
+            await ok.edit("» BSDK...REPLY KRKE KAR !!")
+            return
+
+        if str(target) in sudousers:
+            await ok.edit(f"YE BHI JARVIS KA HI BACHA HAI.. !!")
+        else:
+            if len(sudousers) > 0:
+                delsudo = f"{sudousers} {target}"
+            else:
+                delsudo = f"{target}"
+            await ok.edit(f"» **removing ꜱᴜᴅᴏ from ᴜꜱᴇʀ**: `{target}`\n» `jarvis hta diya iske upr se..BOT RESTART HO RHA HAI`")
+            heroku_var["SUDO_USERS"] = delsudo  
+    
+    elif event.sender_id in SUDO_USERS:
+        await event.reply("» BSDK SIRF JARVIS SUDO DE SKTA HAI...")
