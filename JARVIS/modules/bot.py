@@ -143,7 +143,7 @@ async def removesudo(event):
     if event.sender_id == OWNER_ID:
         Heroku = heroku3.from_key(HEROKU_API_KEY)
         sudousers = getenv("SUDO_USERS", default=None)
-        ok = await event.reply(f"Removing sudo user...")
+        ok = await event.reply(f"YE Jarvis Ki Najayaz Aulad thi isiliye nikal diya💋...")
         target = ""
         if HEROKU_APP_NAME is not None:
             app = Heroku.app(HEROKU_APP_NAME)
@@ -166,14 +166,26 @@ async def removesudo(event):
             await ok.edit(f"Removed sudo user: `{target}`")
             heroku_var["SUDO_USERS"] = new_sudo_users
     else:
-        await event.reply("Only the owner can remove sudo users.")
+        await event.reply("Only Jarvis can remove sudo users.")
 
-
-
-
-async def showsudolist(event):
-    if event.sender_id in SUDO_USERS:
-        sudo_user_list = "\n".join([str(user) for user in SUDO_USERS])
-        await event.reply(f"List of sudo users:\n{sudousers}")
+@X1.on(events.NewMessage(incoming=True, pattern=r"\%ssudos(?: |$)(.*)" % hl))
+@X2.on(events.NewMessage(incoming=True, pattern=r"\%ssudos(?: |$)(.*)" % hl))
+@X3.on(events.NewMessage(incoming=True, pattern=r"\%ssudos(?: |$)(.*)" % hl))
+@X4.on(events.NewMessage(incoming=True, pattern=r"\%ssudos(?: |$)(.*)" % hl))
+@X5.on(events.NewMessage(incoming=True, pattern=r"\%ssudos(?: |$)(.*)" % hl))
+@X6.on(events.NewMessage(incoming=True, pattern=r"\%ssudos(?: |$)(.*)" % hl))
+@X7.on(events.NewMessage(incoming=True, pattern=r"\%ssudos(?: |$)(.*)" % hl))
+@X8.on(events.NewMessage(incoming=True, pattern=r"\%ssudos(?: |$)(.*)" % hl))
+@X9.on(events.NewMessage(incoming=True, pattern=r"\%ssudos(?: |$)(.*)" % hl))
+@X10.on(events.NewMessage(incoming=True, pattern=r"\%ssudos(?: |$)(.*)" % hl))
+async def show_sudo_users(event):
+    if event.sender_id == OWNER_ID:
+        sudo_users_list = "Jarvis Ke Bache hai ye:\n"
+        for user_id in SUDO_USERS:
+            sudo_users_list += f"- {user_id}\n"
+        await event.reply(sudo_users_list)
     else:
-        await event.reply("You are not authorized to view the sudo user list.")
+        await event.reply("Only Jarvis view the sudo users list.")
+
+
+
