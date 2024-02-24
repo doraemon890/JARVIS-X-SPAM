@@ -2,7 +2,7 @@ import sys
 import heroku3
 
 from config import X1, X2, X3, X4, X5, X6, X7, X8, X9, X10, OWNER_ID, SUDO_USERS, HEROKU_APP_NAME, HEROKU_API_KEY, CMD_HNDLR as hl
-
+from config import SUDO_USERS
 from os import execl, getenv
 from telethon import events
 from datetime import datetime
@@ -128,3 +128,52 @@ async def addsudo(event):
     
     elif event.sender_id in SUDO_USERS:
         await event.reply("» BSDK SIRF JARVIS SUDO DE SKTA HAI...")
+
+@X1.on(events.NewMessage(incoming=True, pattern=r"\%sremovesudo(?: |$)(.*)" % hl))
+@X2.on(events.NewMessage(incoming=True, pattern=r"\%sremovesudo(?: |$)(.*)" % hl))
+@X3.on(events.NewMessage(incoming=True, pattern=r"\%sremovesudo(?: |$)(.*)" % hl))
+@X4.on(events.NewMessage(incoming=True, pattern=r"\%sremovesudo(?: |$)(.*)" % hl))
+@X5.on(events.NewMessage(incoming=True, pattern=r"\%sremovesudo(?: |$)(.*)" % hl))
+@X6.on(events.NewMessage(incoming=True, pattern=r"\%sremovesudo(?: |$)(.*)" % hl))
+@X7.on(events.NewMessage(incoming=True, pattern=r"\%sremovesudo(?: |$)(.*)" % hl))
+@X8.on(events.NewMessage(incoming=True, pattern=r"\%sremovesudo(?: |$)(.*)" % hl))
+@X9.on(events.NewMessage(incoming=True, pattern=r"\%sremovesudo(?: |$)(.*)" % hl))
+@X10.on(events.NewMessage(incoming=True, pattern=r"\%sremovesudo(?: |$)(.*)" % hl))
+async def removesudo(event):
+    if event.sender_id == OWNER_ID:
+        Heroku = heroku3.from_key(HEROKU_API_KEY)
+        sudousers = getenv("SUDO_USERS", default=None)
+        ok = await event.reply(f"Removing sudo user...")
+        target = ""
+        if HEROKU_APP_NAME is not None:
+            app = Heroku.app(HEROKU_APP_NAME)
+        else:
+            await ok.edit("`[HEROKU]:\nPlease set up your HEROKU_APP_NAME`")
+            return
+        heroku_var = app.config()
+        if event is None:
+            return
+        try:
+            reply_msg = await event.get_reply_message()
+            target = reply_msg.sender_id
+        except:
+            await ok.edit("Reply to a message to remove the user.")
+            return
+        if str(target) not in sudousers:
+            await ok.edit("User is not in the sudo list.")
+        else:
+            new_sudo_users = " ".join([user for user in sudousers.split() if user != str(target)])
+            await ok.edit(f"Removed sudo user: `{target}`")
+            heroku_var["SUDO_USERS"] = new_sudo_users
+    else:
+        await event.reply("Only the owner can remove sudo users.")
+
+
+
+
+async def showsudolist(event):
+    if event.sender_id in SUDO_USERS:
+        sudo_user_list = "\n".join([str(user) for user in SUDO_USERS])
+        await event.reply(f"List of sudo users:\n{sudousers}")
+    else:
+        await event.reply("You are not authorized to view the sudo user list.")
