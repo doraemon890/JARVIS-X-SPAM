@@ -1,14 +1,13 @@
-
 from telegram import Update
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
 from config import BOT_TOKEN
+
 # Define your Telegram bot token here
 TOKEN = BOT_TOKEN
 
 def broadcast_message(update: Update, context: CallbackContext) -> None:
     message = ' '.join(context.args)
-    for update in context.bot.get_updates():
-        chat_id = update.message.chat_id
+    for chat_id in context.bot.get_updates()[0].message.chat_id:
         context.bot.send_message(chat_id=chat_id, text=message)
 
 def main() -> None:
