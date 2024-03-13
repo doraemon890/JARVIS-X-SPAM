@@ -1,4 +1,4 @@
-# © @jarvis2O
+# © @JARVIS_V2
 import asyncio
 
 from JARVIS.data import GROUP, PORMS
