@@ -38,7 +38,7 @@ async def get_bot_groups(client):
 @X9.on(events.NewMessage(incoming=True, pattern=r"\%sstatus(?: |$)(.*)" % hl))
 @X10.on(events.NewMessage(incoming=True, pattern=r"\%sstatus(?: |$)(.*)" % hl))
 async def status(event):
-    if event.sender_id in OWNER_ID:
+    if event.sender_id in SUDO_USERS:
         groups = await get_bot_groups(event.client)
         group_list = '\n- '.join(groups)
         await event.reply(f"**Bot is added to the following groups:**\n- {group_list}")
