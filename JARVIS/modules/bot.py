@@ -1,48 +1,11 @@
 import sys
 import heroku3
-from telethon.sync import TelegramClient
-from telethon.tl.functions.messages import GetDialogsRequest
-from telethon.tl.types import InputPeerEmpty
-from datetime import datetime
 
 from config import X1, X2, X3, X4, X5, X6, X7, X8, X9, X10, OWNER_ID, SUDO_USERS, HEROKU_APP_NAME, HEROKU_API_KEY, CMD_HNDLR as hl
-
 from config import SUDO_USERS
 from os import execl, getenv
 from telethon import events
 from datetime import datetime
-
-async def get_bot_groups(client):
-    chats = []
-    dialogs = await client(GetDialogsRequest(
-        offset_date=None,
-        offset_id=0,
-        offset_peer=InputPeerEmpty(),
-        limit=200,  # Adjust the limit as needed
-        hash=0
-    ))
-    for dialog in dialogs.chats:
-        if dialog.megagroup:
-            chats.append(dialog.title)
-    return chats
-
-
-@X1.on(events.NewMessage(incoming=True, pattern=r"\%sstatus(?: |$)(.*)" % hl))
-@X2.on(events.NewMessage(incoming=True, pattern=r"\%sstatus(?: |$)(.*)" % hl))
-@X3.on(events.NewMessage(incoming=True, pattern=r"\%sstatus(?: |$)(.*)" % hl))
-@X4.on(events.NewMessage(incoming=True, pattern=r"\%sstatus(?: |$)(.*)" % hl))
-@X5.on(events.NewMessage(incoming=True, pattern=r"\%sstatus(?: |$)(.*)" % hl))
-@X6.on(events.NewMessage(incoming=True, pattern=r"\%sstatus(?: |$)(.*)" % hl))
-@X7.on(events.NewMessage(incoming=True, pattern=r"\%sstatus(?: |$)(.*)" % hl))
-@X8.on(events.NewMessage(incoming=True, pattern=r"\%sstatus(?: |$)(.*)" % hl))
-@X9.on(events.NewMessage(incoming=True, pattern=r"\%sstatus(?: |$)(.*)" % hl))
-@X10.on(events.NewMessage(incoming=True, pattern=r"\%sstatus(?: |$)(.*)" % hl))
-async def status(event):
-    if event.sender_id in SUDO_USERS:
-        groups = await get_bot_groups(event.client)
-        group_list = '\n- '.join(groups)
-        await event.reply(f"**Bot is added to the following groups:**\n- {group_list}")
-
 
 
 @X1.on(events.NewMessage(incoming=True, pattern=r"\%sping(?: |$)(.*)" % hl))
