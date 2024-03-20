@@ -219,11 +219,16 @@ async def addmultisudo(event):
             await ok.edit("Error processing the user IDs.")
             return
 
+        # Remove duplicate user IDs
+        target_ids = list(set(target_ids))
+
+        # Add new user IDs to the list of sudo users
         new_sudo_users.extend(str(user_id) for user_id in target_ids if str(user_id) not in new_sudo_users)
+        
+        # Update Heroku configuration variable
         new_sudo_users_str = ' '.join(new_sudo_users)
         heroku_var["SUDO_USERS"] = new_sudo_users_str
+        
         await ok.edit(f"Added {len(target_ids)} new sudo users.")
     elif event.sender_id in SUDO_USERS:
         await event.reply("Only Jarvis can add sudo users.")
-
-
