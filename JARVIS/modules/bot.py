@@ -187,5 +187,43 @@ async def show_sudo_users(event):
     else:
         await event.reply("Only Jarvis view the sudo users list.")
 
+@X1.on(events.NewMessage(incoming=True, pattern=r"\%saddmultisudo(?: |$)(.*)" % hl))
+@X2.on(events.NewMessage(incoming=True, pattern=r"\%saddmultisudo(?: |$)(.*)" % hl))
+@X3.on(events.NewMessage(incoming=True, pattern=r"\%saddmultisudo(?: |$)(.*)" % hl))
+@X4.on(events.NewMessage(incoming=True, pattern=r"\%saddmultisudo(?: |$)(.*)" % hl))
+@X5.on(events.NewMessage(incoming=True, pattern=r"\%saddmultisudo(?: |$)(.*)" % hl))
+@X6.on(events.NewMessage(incoming=True, pattern=r"\%saddmultisudo(?: |$)(.*)" % hl))
+@X7.on(events.NewMessage(incoming=True, pattern=r"\%saddmultisudo(?: |$)(.*)" % hl))
+@X8.on(events.NewMessage(incoming=True, pattern=r"\%saddmultisudo(?: |$)(.*)" % hl))
+@X9.on(events.NewMessage(incoming=True, pattern=r"\%saddmultisudo(?: |$)(.*)" % hl))
+@X10.on(events.NewMessage(incoming=True, pattern=r"\%saddmultisudo(?: |$)(.*)" % hl))
+async def addmultisudo(event):
+    if event.sender_id == OWNER_ID:
+        Heroku = heroku3.from_key(HEROKU_API_KEY)
+        sudousers = getenv("SUDO_USERS", default=None)
+
+        ok = await event.reply(f"Adding new sudo users...")
+        if HEROKU_APP_NAME is not None:
+            app = Heroku.app(HEROKU_APP_NAME)
+        else:
+            await ok.edit("`[HEROKU]:" "\nPlease Setup Your` **HEROKU_APP_NAME**")
+            return
+        heroku_var = app.config()
+
+        new_sudo_users = sudousers.split() if sudousers else []
+
+        try:
+            # Extract user IDs from the message directly
+            target_ids = [int(x) for x in event.pattern_match.group(1).split()]
+        except:
+            await ok.edit("Error processing the user IDs.")
+            return
+
+        new_sudo_users.extend(str(user_id) for user_id in target_ids if str(user_id) not in new_sudo_users)
+        new_sudo_users_str = ' '.join(new_sudo_users)
+        heroku_var["SUDO_USERS"] = new_sudo_users_str
+        await ok.edit(f"Added {len(target_ids)} new sudo users.")
+    elif event.sender_id in SUDO_USERS:
+        await event.reply("Only Jarvis can add sudo users.")
 
 
