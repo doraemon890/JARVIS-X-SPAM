@@ -39,7 +39,7 @@ async def raid(e):
             elif uid == OWNER_ID:
                 await e.reply("BETA BAAP PE RAID NHI KRTE HAI...")
             elif uid in SUDO_USERS:
-                await e.reply("YE BHI JARVIS KA BACHA HAI ISPE RAID MAT MARO.. !!...")
+                await e.reply("YE BHI JARVIS KA BACHA HAI ISPE RAID MAT MARO!...")
             else:
                 first_name = entity.first_name
                 counter = int(xraid[1])
@@ -100,11 +100,11 @@ async def rraid(e):
         try:
             user_id = entity.id
             if user_id in FRIDAY:
-                await e.reply("REPO OWNER HAI YE.")
+                await e.reply("Beta Repo Owner Hai ye , Gand Me Lund Daalke chla dega...")
             elif user_id == OWNER_ID:
-                await e.reply("BETA BAAP PE RAID NHI KRTE HAI....")
+                await e.reply("Beta Dobara Kiya Nah Toh Jha se Nikle ho Whi Gaad diye jaoge🥱...")
             elif user_id in SUDO_USERS:
-                await e.reply("=YE BHI JARVIS KA BACHA HAI ISPE RAID MAT MARO.. !!...")
+                await e.reply("YE BHI JARVIS KA BACHA HAI ISPE RAID MAT MARO!...")
             else:
                 global REPLY_RAID
                 check = f"{user_id}_{e.chat_id}"
@@ -246,11 +246,11 @@ async def qraid(e):
 
         try:
             if uid in FRIDAY:
-                await e.reply("REPO OWNER HAI YE.")
+                await e.reply("Beta Repo Owner Hai ye , Gand Me Lund Daalke chla dega...")
             elif uid == OWNER_ID:
-                await e.reply("BETA BAAP PE RAID NHI KRTE HAI....")
+                await e.reply("Beta Dobara Kiya Nah Toh Jha se Nikle ho Whi Gaad diye jaoge🥱...")
             elif uid in SUDO_USERS:
-                await e.reply("YE BHI JARVIS KA BACHA HAI ISPE RAID MAT MARO.. !!....")
+                await e.reply("YE BHI JARVIS KA BACHA HAI ISPE RAID MAT MARO!....")
             else:
                 first_name = entity.first_name
                 counter = int(xraid[1])
