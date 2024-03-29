@@ -87,9 +87,9 @@ raid_msg = f"""
   1) {hl}sraid <count> <username>
   2) {hl}sraid <count> <reply to user>
 
-𝐂𝐑𝐚𝐢𝐝: **ᴀʙᴄᴅ ʀᴀɪᴅ ᴏɴ ᴛʜᴇ ᴜꜱᴇʀ.**
-  1) {hl}craid <count> <username>
-  2) {hl}craid <count> <reply to user>
+𝐐𝐑𝐚𝐢𝐝: **ᴀʙᴄᴅ ʀᴀɪᴅ ᴏɴ ᴛʜᴇ ᴜꜱᴇʀ.**
+  1) {hl}qraid <count> <username>
+  2) {hl}qraid <count> <reply to user>
 
 
 **© @JARVIS_V2**
