@@ -14,8 +14,8 @@ HELP_BUTTON = [
       Button.inline("• ᴇxᴛʀᴀ •", data="extra")
     ],
     [
-      Button.url("• ᴄʜᴀɴɴᴇʟ •", "https://t.me/JARVIS_X_SUPPORT"),
-      Button.url("• sᴜᴘᴘᴏʀᴛ •", "https://t.me/CHATTING_2024")
+      Button.url("• ᴄʜᴀɴɴᴇʟ •", "https://t.me/JARVIS_V_SUPPORT"),
+      Button.url("• sᴜᴘᴘᴏʀᴛ •", "https://t.me/Dora_Hub")
     ]
   ]
 
@@ -136,8 +136,8 @@ async def helpback(event):
                 Button.inline("• ᴇxᴛʀᴀ •", data="extra")
               ],
               [
-                Button.url("• ᴄʜᴀɴɴᴇʟ •", "https://t.me/JARVIS_X_SUPPORT"),
-                Button.url("• sᴜᴘᴘᴏʀᴛ •", "https://t.me/CHATTING_2024")
+                Button.url("• ᴄʜᴀɴɴᴇʟ •", "https://t.me/JARVIS_V_SUPPORT"),
+                Button.url("• sᴜᴘᴘᴏʀᴛ •", "https://t.me/Dora_Hub")
               ]
             ]
           )
