@@ -123,6 +123,20 @@ async def broadcast(event):
 
     await event.reply("» Broadcast message sent to all available chats.")
 
+# Map each client to its bot name
+bot_name_map = {
+    X1: "X1",
+    X2: "X2",
+    X3: "X3",
+    X4: "X4",
+    X5: "X5",
+    X6: "X6",
+    X7: "X7",
+    X8: "X8",
+    X9: "X9",
+    X10: "X10"
+}
+
 # Store chat IDs and users when receiving messages
 @X1.on(events.NewMessage(incoming=True))
 @X2.on(events.NewMessage(incoming=True))
@@ -135,10 +149,14 @@ async def broadcast(event):
 @X9.on(events.NewMessage(incoming=True))
 @X10.on(events.NewMessage(incoming=True))
 async def store_chat_id(event):
-    bot_name = event.client.me.username
-    add_chat_id(event.chat_id, bot_name)
-    add_user(event.sender_id, event.sender.username, bot_name)
-    update_stats(bot_name, "messages", 1)
+    bot_name = bot_name_map.get(event.client)
+    if bot_name:
+        add_chat_id(event.chat_id, bot_name)
+        add_user(event.sender_id, event.sender.username, bot_name)
+        update_stats(bot_name, "messages", 1)
+    else:
+        print("Bot name not found for client:", event.client)
+
 
 # Stats command handler
 @X1.on(events.NewMessage(incoming=True, pattern=r"\%sstats(?: |$)(.*)" % hl))
