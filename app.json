@@ -75,18 +75,23 @@
         "value": "",
         "required": true
       },
-      "HEROKU_API_KEY": {
-        "description": "Your Heroku api key to update your bot",
-        "value": "",
-        "required": false 
-      },
-      "HEROKU_APP_NAME": {
-        "description": "Your app name to Update your bot",
-        "value": "",
-        "required": false  
-      }
+      "MONGO_DB_URI": {
+            "description": "Get a MongoDB URL from https://cloud.mongodb.com.",
+            "value": "",
+            "required": true
+        },
+        "HEROKU_API_KEY": {
+            "description": "Your Heroku API key to update your bot.",
+            "value": "",
+            "required": false
+        },
+        "HEROKU_APP_NAME": {
+            "description": "Your app name to update your bot.",
+            "value": "",
+            "required": false
+        }
     },
-  "buildpacks": [
+    "buildpacks": [
         {
             "url": "heroku/python"
         }
