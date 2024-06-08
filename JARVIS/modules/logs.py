@@ -17,8 +17,10 @@ from config import (
 client = MongoClient(MONGO_DB_URI)
 
 # Define individual databases for each bot
-db_names = ['bot_database_1', 'bot_database_2', 'bot_database_3', 'bot_database_4', 'bot_database_5', 
-            'bot_database_6', 'bot_database_7', 'bot_database_8', 'bot_database_9', 'bot_database_10']
+db_names = [
+    'bot_database_1', 'bot_database_2', 'bot_database_3', 'bot_database_4', 'bot_database_5', 
+    'bot_database_6', 'bot_database_7', 'bot_database_8', 'bot_database_9', 'bot_database_10'
+]
 
 # Define the handlers
 handlers = [X1, X2, X3, X4, X5, X6, X7, X8, X9, X10]
@@ -29,37 +31,40 @@ db_map = {handler: client[db_name] for handler, db_name in zip(handlers, db_name
 # Heroku logs URL
 AYU = "https://graph.org/file/3a93e14b4e1c6c1d031e7.mp4"
 
+# Function to fetch Heroku logs
 async def fetch_heroku_logs(event, bot):
-    if HEROKU_APP_NAME is None or HEROKU_API_KEY is None:
+    if not HEROKU_APP_NAME or not HEROKU_API_KEY:
         await event.reply("First set these vars in Heroku: `HEROKU_API_KEY` and `HEROKU_APP_NAME`.")
         return None
 
     try:
         heroku_conn = heroku3.from_key(HEROKU_API_KEY)
         app = heroku_conn.app(HEROKU_APP_NAME)
+        return app.get_log()
     except Exception:
         await event.reply("Make sure your Heroku API Key and App Name are configured correctly in Heroku.")
         return None
 
-    return app.get_log()
-
+# Function to write logs to a file
 async def write_logs_to_file(logs):
     with open("Jarvislogs.txt", "w") as logfile:
         logfile.write("𖤍 ᴊᴀʀᴠɪs 𖤍 [ ʙᴏᴛ ʟᴏɢs ]\n\n" + logs)
 
+# Function to send logs file
 async def send_logs_file(event, ms, bot):
     try:
         await bot.send_file(event.chat_id, "Jarvislogs.txt", caption=f"𝗝𝗔𝗥𝗩𝗜𝗦 𝗕𝗢𝗧𝗦 𝗟𝗢𝗚𝗦 📨\n\n  » **Time Taken:** `{ms} seconds`")
     except Exception as e:
         await event.reply(f"An Exception Occurred!\n\n**ERROR:** {str(e)}")
 
+# Logs command handler
 async def logs(event, bot):
     if event.sender_id == OWNER_ID:
         start = datetime.now()
         fetch = await event.reply("__Fetching Logs...__")
         logs = await fetch_heroku_logs(event, bot)
 
-        if logs is not None:
+        if logs:
             await write_logs_to_file(logs)
             end = datetime.now()
             ms = (end - start).seconds
@@ -69,6 +74,7 @@ async def logs(event, bot):
     elif event.sender_id in SUDO_USERS:
         await event.reply("**»** ᴏɴʟʏ ᴊᴀʀᴠɪs ᴄᴀɴ ᴘᴇʀғᴏʀᴍ ᴛʜɪs ᴀᴄᴛɪᴏɴ...")
 
+# Track stats function
 async def track_stats(event, bot):
     stats_collection = db_map[bot]['stats']
     if event.is_group:
@@ -86,9 +92,10 @@ async def track_stats(event, bot):
             upsert=True
         )
 
+# Check stats command handler
 async def check_stats(event, bot):
     stats_collection = db_map[bot]['stats']
-    if event.sender_id == OWNER_ID or event.sender_id in SUDO_USERS:
+    if event.sender_id in SUDO_USERS or event.sender_id == OWNER_ID:
         user_count = stats_collection.count_documents({'type': 'user'})
         group_count = stats_collection.count_documents({'type': 'group'})
         stats_message = f"⚔️ 𝗝𝗔𝗥𝗩𝗜𝗦 𝗕𝗢𝗧𝗦 𝗦𝗧𝗔𝗧𝗦 ⚔️\n\n"
@@ -113,6 +120,7 @@ async def check_stats(event, bot):
     else:
         await event.reply("ʏᴏᴜ ᴅᴏ ɴᴏᴛ ʜᴀᴠᴇ ᴘᴇʀᴍɪssɪᴏɴ ᴛᴏ ᴜsᴇ ᴛʜɪs ᴍᴇɴᴜ.")
 
+# Callback query handler
 async def callback(event, bot):
     stats_collection = db_map[bot]['stats']
     data = event.data.decode('utf-8')
@@ -136,6 +144,7 @@ async def callback(event, bot):
         ]
         await event.edit("⚔️ 𝗝𝗔𝗥𝗩𝗜𝗦 𝗕𝗢𝗧𝗦 𝗦𝗧𝗔𝗧𝗦 ⚔️", file=AYU, buttons=buttons)
 
+# Broadcast command handler
 async def broadcast(event, bot):
     stats_collection = db_map[bot]['stats']
     if event.sender_id == OWNER_ID:
