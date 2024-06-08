@@ -1,36 +1,35 @@
 from config import X1, X2, X3, X4, X5, X6, X7, X8, X9, X10, SUDO_USERS, CMD_HNDLR as hl
-
 from telethon import events
 from telethon.tl.functions.channels import LeaveChannelRequest
 
+# List of handlers
+handlers = [X1, X2, X3, X4, X5, X6, X7, X8, X9, X10]
 
-@X1.on(events.NewMessage(incoming=True, pattern=r"\%sleave(?: |$)(.*)" % hl))
-@X2.on(events.NewMessage(incoming=True, pattern=r"\%sleave(?: |$)(.*)" % hl))
-@X3.on(events.NewMessage(incoming=True, pattern=r"\%sleave(?: |$)(.*)" % hl))
-@X4.on(events.NewMessage(incoming=True, pattern=r"\%sleave(?: |$)(.*)" % hl))
-@X5.on(events.NewMessage(incoming=True, pattern=r"\%sleave(?: |$)(.*)" % hl))
-@X6.on(events.NewMessage(incoming=True, pattern=r"\%sleave(?: |$)(.*)" % hl))
-@X7.on(events.NewMessage(incoming=True, pattern=r"\%sleave(?: |$)(.*)" % hl))
-@X8.on(events.NewMessage(incoming=True, pattern=r"\%sleave(?: |$)(.*)" % hl))
-@X9.on(events.NewMessage(incoming=True, pattern=r"\%sleave(?: |$)(.*)" % hl))
-@X10.on(events.NewMessage(incoming=True, pattern=r"\%sleave(?: |$)(.*)" % hl))
-async def leave(e):
-    if e.sender_id in SUDO_USERS:
-
-        if len(e.text) > 7:
-            event = await e.reply("» GROUP CHOR KE JAA RHA HU...")
-            mkl = e.text.split(" ", 1)
+# Leave function
+async def leave(event):
+    if event.sender_id in SUDO_USERS:
+        if len(event.text) > 7:
+            reply = await event.reply("» ʟᴇᴀᴠɪɴɢ ᴛʜᴇ ɢʀᴏᴜᴘ...")
+            chat_id = event.text.split(" ", 1)[1]
             try:
-                await event.client(LeaveChannelRequest(int(mkl[1])))
+                await event.client(LeaveChannelRequest(int(chat_id)))
             except Exception as e:
-                await event.edit(str(e))
+                await reply.edit(str(e))
         else:
-             if e.is_private:
-                  alt = f"**» ʏᴏᴜ ᴄᴀɴ'ᴛ ᴅᴏ ᴛʜɪꜱ ʜᴇʀᴇ !!**\n\n» {hl}leave <ᴄʜᴀɴɴᴇʟ/ᴄʜᴀᴛ ɪᴅ> \n» {hl}leave : ᴛʏᴘᴇ ɪɴ ᴛʜᴇ ɢʀᴏᴜᴘ, ʙᴏᴛ ᴡɪʟʟ ᴀᴜᴛᴏ ʟᴇᴀᴠᴇ ᴛʜᴀᴛ ɢʀᴏᴜᴘ."
-                  await e.reply(alt)
-             else:
-                  event = await e.reply("» GROUP CHOR KE JAA RHA HU...")
-                  try:
-                      await event.client(LeaveChannelRequest(int(e.chat_id)))
-                  except Exception as e:
-                      await event.edit(str(e))
+            if event.is_private:
+                message = (
+                    f"**» ʏᴏᴜ ᴄᴀɴ'ᴛ ᴅᴏ ᴛʜɪꜱ ʜᴇʀᴇ !!**\n\n"
+                    f"» {hl}leave <ᴄʜᴀɴɴᴇʟ/ᴄʜᴀᴛ ɪᴅ>\n"
+                    f"» {hl}leave : ᴛʏᴘᴇ ɪɴ ᴛʜᴇ ɢʀᴏᴜᴘ, ʙᴏᴛ ᴡɪʟʟ ᴀᴜᴛᴏ ʟᴇᴀᴠᴇ ᴛʜᴀᴛ ɢʀᴏᴜᴘ."
+                )
+                await event.reply(message)
+            else:
+                reply = await event.reply("» ʟᴇᴀᴠɪɴɢ ᴛʜᴇ ɢʀᴏᴜᴘ...")
+                try:
+                    await event.client(LeaveChannelRequest(int(event.chat_id)))
+                except Exception as e:
+                    await reply.edit(str(e))
+
+# Register event handlers
+for handler in handlers:
+    handler.on(events.NewMessage(incoming=True, pattern=r"\%sleave(?: |$)(.*)" % hl))(leave)
