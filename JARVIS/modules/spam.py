@@ -52,14 +52,9 @@ async def spam(event: events.NewMessage.Event):
                     await asyncio.sleep(0.2)
             else:
                 await event.reply(
-                    f"😈 **Usage:**\n  » {hl}spam 13 jarvis\n  » {hl}spam 13 <ʀᴇᴘʟʏ ᴛᴏ ᴛᴇxᴛ>\n\n"
-                    f"**To do spam with replying to a user:**\n  » {hl}spam 13 jarvis <ʀᴇᴘʟʏ ᴛᴏ ᴜꜱᴇʀ>"
-                )
+                    f"⚔️ **ᴜsᴀɢᴇ:**\n  » {hl}spam 04 ᴊᴀʀᴠɪs\n  » {hl}spam 04 <ʀᴇᴘʟʏ ᴛᴏ ᴛᴇxᴛ>\n\n**ᴛᴏ ᴅᴏ sᴘᴀᴍ ᴡɪᴛʜ ʀᴇᴘʟʏɪɴɢ ᴛᴏ ᴀ ᴜsᴇʀ:**\n  » {hl}spam 04 ᴊᴀʀᴠɪs <ʀᴇᴘʟʏ ᴛᴏ ᴜꜱᴇʀ>")
         except (IndexError, ValueError):
-            await event.reply(
-                f"😈 **Usage:**\n  » {hl}spam 13 jarvis\n  » {hl}spam 13 <ʀᴇᴘʟʏ ᴛᴏ ᴛᴇxᴛ>\n\n"
-                f"**To do spam with replying to a user:**\n  » {hl}spam 13 jarvis <ʀᴇᴘʟʏ ᴛᴏ ᴜꜱᴇʀ>"
-            )
+            await event.reply(f"⚔️ **ᴜsᴀɢᴇ:**\n  » {hl}spam 04 ᴊᴀʀᴠɪs\n  » {hl}spam 04 <ʀᴇᴘʟʏ ᴛᴏ ᴛᴇxᴛ>\n\n**ᴛᴏ ᴅᴏ sᴘᴀᴍ ᴡɪᴛʜ ʀᴇᴘʟʏɪɴɢ ᴛᴏ ᴀ ᴜsᴇʀ:**\n  » {hl}spam 04 ᴊᴀʀᴠɪs <ʀᴇᴘʟʏ ᴛᴏ ᴜꜱᴇʀ>")
         except Exception as e:
             print(e)
 
@@ -67,7 +62,7 @@ async def spam(event: events.NewMessage.Event):
 async def pspam(event: events.NewMessage.Event):
     if event.sender_id in SUDO_USERS:
         if event.chat_id in GROUP:
-            await event.reply("» YE GROUP JARVIS KE UNDER MAI HAI ISLEYE ISME PSPAM NHI HOGA...")
+            await event.reply("➪ ᴛʜɪs ɢʀᴏᴜᴘ ɪs ɪɴ sᴜʀᴠɪʟʟᴀɴᴄᴇ ᴏғ ᴊᴀʀᴠɪs sᴏ ʜᴇʀᴇ ᴘsᴘᴀᴍ ᴡɪʟʟ ɴᴏᴛ ᴡᴏʀᴋ...")
         else:
             try:
                 counter = int(event.text.split(" ", 2)[1])
@@ -85,7 +80,7 @@ async def pspam(event: events.NewMessage.Event):
 async def hang(event: events.NewMessage.Event):
     if event.sender_id in SUDO_USERS:
         if event.chat_id in GROUP:
-            await event.reply("» YE GROUP JARVIS KE UNDER MAI HAI ISLEYE ISME HANG NHI HOGA..")
+            await event.reply("➪ ᴛʜɪs ɢʀᴏᴜᴘ ɪs ɪɴ sᴜʀᴠɪʟʟᴀɴᴄᴇ ᴏғ ᴊᴀʀᴠɪs sᴏ ʜᴇʀᴇ ʜᴀɴɢ ᴡɪʟʟ ɴᴏᴛ ᴡᴏʀᴋ...")
         else:
             try:
                 counter = int(event.text.split(" ", 2)[1])
