@@ -1,15 +1,12 @@
 import logging
-
-from telethon import TelegramClient
-
 from os import getenv
+from telethon import TelegramClient
 from JARVIS.data import FRIDAY
 
-
+# Configure logging
 logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s', level=logging.WARNING)
 
-
-# VALUES REQUIRED FOR JARVIS BOTS
+# Environment variables and constants
 API_ID = 18136872
 API_HASH = "312d861b78efcd1b02183b2ab52a83a4"
 CMD_HNDLR = getenv("CMD_HNDLR", default=".")
@@ -17,33 +14,34 @@ HEROKU_APP_NAME = getenv("HEROKU_APP_NAME", None)
 HEROKU_API_KEY = getenv("HEROKU_API_KEY", None)
 MONGO_DB_URI = getenv("MONGO_DB_URI")
 
-BOT_TOKEN = getenv("BOT_TOKEN", default=None)
-BOT_TOKEN2 = getenv("BOT_TOKEN2", default=None)
-BOT_TOKEN3 = getenv("BOT_TOKEN3", default=None)
-BOT_TOKEN4 = getenv("BOT_TOKEN4", default=None)
-BOT_TOKEN5 = getenv("BOT_TOKEN5", default=None)
-BOT_TOKEN6 = getenv("BOT_TOKEN6", default=None)
-BOT_TOKEN7 = getenv("BOT_TOKEN7", default=None)
-BOT_TOKEN8 = getenv("BOT_TOKEN8", default=None)
-BOT_TOKEN9 = getenv("BOT_TOKEN9", default=None)
-BOT_TOKEN10 = getenv("BOT_TOKEN10", default=None)
+# Bot tokens
+BOT_TOKENS = [
+    getenv("BOT_TOKEN", default=None),
+    getenv("BOT_TOKEN2", default=None),
+    getenv("BOT_TOKEN3", default=None),
+    getenv("BOT_TOKEN4", default=None),
+    getenv("BOT_TOKEN5", default=None),
+    getenv("BOT_TOKEN6", default=None),
+    getenv("BOT_TOKEN7", default=None),
+    getenv("BOT_TOKEN8", default=None),
+    getenv("BOT_TOKEN9", default=None),
+    getenv("BOT_TOKEN10", default=None),
+]
 
-SUDO_USERS = list(map(lambda x: int(x), getenv("SUDO_USERS", default="6757745933").split()))
-for x in FRIDAY:
-    SUDO_USERS.append(x)
+# Sudo users and owner ID
+SUDO_USERS = list(map(int, getenv("SUDO_USERS", default="6757745933").split()))
+SUDO_USERS.extend(FRIDAY)
 OWNER_ID = int(getenv("OWNER_ID", default="7044783841"))
 SUDO_USERS.append(OWNER_ID)
 
+# Initialize Telegram clients
+clients = []
+for idx, bot_token in enumerate(BOT_TOKENS, start=1):
+    if bot_token:
+        client = TelegramClient(f'X{idx}', API_ID, API_HASH).start(bot_token=bot_token)
+        clients.append(client)
+        logging.info(f'Initialized bot X{idx}')
 
-# ------------- CLIENTS -------------
+# Assign clients to specific variables for convenience
+X1, X2, X3, X4, X5, X6, X7, X8, X9, X10 = clients[:10]
 
-X1 = TelegramClient('X1', API_ID, API_HASH).start(bot_token=BOT_TOKEN)
-X2 = TelegramClient('X2', API_ID, API_HASH).start(bot_token=BOT_TOKEN2)
-X3 = TelegramClient('X3', API_ID, API_HASH).start(bot_token=BOT_TOKEN3)
-X4 = TelegramClient('X4', API_ID, API_HASH).start(bot_token=BOT_TOKEN4)
-X5 = TelegramClient('X5', API_ID, API_HASH).start(bot_token=BOT_TOKEN5)
-X6 = TelegramClient('X6', API_ID, API_HASH).start(bot_token=BOT_TOKEN6)
-X7 = TelegramClient('X7', API_ID, API_HASH).start(bot_token=BOT_TOKEN7)
-X8 = TelegramClient('X8', API_ID, API_HASH).start(bot_token=BOT_TOKEN8)
-X9 = TelegramClient('X9', API_ID, API_HASH).start(bot_token=BOT_TOKEN9)
-X10 = TelegramClient('X10', API_ID, API_HASH).start(bot_token=BOT_TOKEN10)
