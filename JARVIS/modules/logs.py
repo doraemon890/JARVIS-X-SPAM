@@ -138,18 +138,25 @@ async def broadcast(event, bot):
     stats_collection = db_map[bot]['stats']
     if event.sender_id == OWNER_ID:
         reply = await event.get_reply_message()
-        message = event.pattern_match.group(1) or (reply and reply.text)
+        message = event.pattern_match.group(1)
 
-        if not message:
+        if not message and not reply:
             await event.reply("ᴘʟᴇᴀsᴇ ᴘʀᴏᴠɪᴅᴇ ᴀ ᴍᴇssᴀɢᴇ ᴛᴏ ʙʀᴏᴀᴅᴄᴀsᴛ ᴏʀ ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴍᴇssᴀɢᴇ.")
             return
         
+        user_count = 0
+        group_count = 0
+
         users = stats_collection.find({'type': 'user'})
         groups = stats_collection.find({'type': 'group'})
         
         for user in users:
             try:
-                await bot.send_message(user['id'], message)
+                if reply:
+                    await bot.send_message(user['id'], message or reply.message, file=reply.media)
+                else:
+                    await bot.send_message(user['id'], message)
+                user_count += 1
             except ForbiddenError:
                 pass  # Ignore if the bot is blocked
             except Exception as e:
@@ -157,13 +164,17 @@ async def broadcast(event, bot):
         
         for group in groups:
             try:
-                await bot.send_message(group['id'], message)
+                if reply:
+                    await bot.send_message(group['id'], message or reply.message, file=reply.media)
+                else:
+                    await bot.send_message(group['id'], message)
+                group_count += 1
             except ForbiddenError:
                 pass  # Ignore if the bot is removed from the group
             except Exception as e:
                 print(f"Error sending message to {group['id']}: {str(e)}")
         
-        await event.reply("ʙʀᴏᴀᴅᴄᴀsᴛ ʜᴀs ʙᴇᴇɴ ᴄᴏᴍᴘʟᴇᴛᴇᴅ.")
+        await event.reply(f"Broadcast has been completed.\n\nMessage sent to:\n- {user_count} users\n- {group_count} chats")
     else:
         await event.reply("ᴏɴʟʏ ᴊᴀʀᴠɪs ᴄᴀɴ ᴘᴇʀғᴏʀᴍ ᴛʜɪs ᴀᴄᴛɪᴏɴ.")
 
@@ -174,4 +185,3 @@ for handler in handlers:
     handler.on(events.NewMessage(incoming=True, pattern=r"\%sstats(?: |$)(.*)" % hl))(lambda e, b=handler: check_stats(e, b))
     handler.on(events.CallbackQuery)(lambda e, b=handler: callback(e, b))
     handler.on(events.NewMessage(incoming=True, pattern=r"\%sbroadcast(?: |$)(.*)" % hl))(lambda e, b=handler: broadcast(e, b))
-          
