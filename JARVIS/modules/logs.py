@@ -96,13 +96,15 @@ async def check_stats(event, bot):
         stats_message += f"Users: {user_count}\nGroups: {group_count}\n\n"
         
         # Collect stats from other bots
+        other_stats = ""
         for other_bot in handlers:
             if other_bot != bot:
                 other_stats_collection = db_map[other_bot]['stats']
                 other_user_count = other_stats_collection.count_documents({'type': 'user'})
                 other_group_count = other_stats_collection.count_documents({'type': 'group'})
-                stats_message += f"**Bot {handlers.index(other_bot) + 1} Stats:**\n"
-                stats_message += f"Users: {other_user_count}\nGroups: {other_group_count}\n\n"
+                other_stats += f"**Bot {handlers.index(other_bot) + 1}**: U: {other_user_count}, G: {other_group_count} | "
+        
+        stats_message += other_stats.rstrip(" | ")
         
         await event.reply(stats_message, file=AYU, buttons=[
             [Button.inline("ᴜsᴇʀs", data="user_stats"), Button.inline("ᴄʜᴀᴛs", data="group_stats")],
