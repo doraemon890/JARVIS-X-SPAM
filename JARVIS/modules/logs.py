@@ -135,7 +135,7 @@ async def callback(event, bot):
             [Button.inline("ᴜsᴇʀs", data="user_stats"), Button.inline("ᴄʜᴀᴛs", data="group_stats")],
             [Button.inline("ᴏᴠᴇʀᴀʟʟ", data="overall_stats")]
         ]
-        await event.edit(stats_message "⚔️ 𝗝𝗔𝗥𝗩𝗜𝗦 𝗕𝗢𝗧𝗦 𝗦𝗧𝗔𝗧𝗦 ⚔️", file=AYU, buttons=buttons)
+        await event.edit(stats_message, "⚔️ 𝗝𝗔𝗥𝗩𝗜𝗦 𝗕𝗢𝗧𝗦 𝗦𝗧𝗔𝗧𝗦 ⚔️", file=AYU, buttons=buttons)
 
 async def broadcast(event, bot):
     stats_collection = db_map[bot]['stats']
