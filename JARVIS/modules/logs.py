@@ -31,7 +31,6 @@ db_map = {handler: client[db_name] for handler, db_name in zip(handlers, db_name
 # Heroku logs URL
 AYU = "https://graph.org/file/3a93e14b4e1c6c1d031e7.mp4"
 
-# Function to fetch Heroku logs
 async def fetch_heroku_logs(event, bot):
     if not HEROKU_APP_NAME or not HEROKU_API_KEY:
         await event.reply("First set these vars in Heroku: `HEROKU_API_KEY` and `HEROKU_APP_NAME`.")
@@ -45,19 +44,16 @@ async def fetch_heroku_logs(event, bot):
         await event.reply("Make sure your Heroku API Key and App Name are configured correctly in Heroku.")
         return None
 
-# Function to write logs to a file
 async def write_logs_to_file(logs):
     with open("Jarvislogs.txt", "w") as logfile:
         logfile.write("𖤍 ᴊᴀʀᴠɪs 𖤍 [ ʙᴏᴛ ʟᴏɢs ]\n\n" + logs)
 
-# Function to send logs file
 async def send_logs_file(event, ms, bot):
     try:
         await bot.send_file(event.chat_id, "Jarvislogs.txt", caption=f"𝗝𝗔𝗥𝗩𝗜𝗦 𝗕𝗢𝗧𝗦 𝗟𝗢𝗚𝗦 📨\n\n  » **Time Taken:** `{ms} seconds`")
     except Exception as e:
         await event.reply(f"An Exception Occurred!\n\n**ERROR:** {str(e)}")
 
-# Logs command handler
 async def logs(event, bot):
     if event.sender_id == OWNER_ID:
         start = datetime.now()
@@ -74,7 +70,6 @@ async def logs(event, bot):
     elif event.sender_id in SUDO_USERS:
         await event.reply("**»** ᴏɴʟʏ ᴊᴀʀᴠɪs ᴄᴀɴ ᴘᴇʀғᴏʀᴍ ᴛʜɪs ᴀᴄᴛɪᴏɴ...")
 
-# Track stats function
 async def track_stats(event, bot):
     stats_collection = db_map[bot]['stats']
     if event.is_group:
@@ -92,7 +87,6 @@ async def track_stats(event, bot):
             upsert=True
         )
 
-# Check stats command handler
 async def check_stats(event, bot):
     stats_collection = db_map[bot]['stats']
     if event.sender_id in SUDO_USERS or event.sender_id == OWNER_ID:
@@ -103,15 +97,15 @@ async def check_stats(event, bot):
         stats_message += f"Users: {user_count}\nGroups: {group_count}\n\n"
         
         # Collect stats from other bots
-        other_stats = ""
+        other_stats = []
         for other_bot in handlers:
             if other_bot != bot:
                 other_stats_collection = db_map[other_bot]['stats']
                 other_user_count = other_stats_collection.count_documents({'type': 'user'})
                 other_group_count = other_stats_collection.count_documents({'type': 'group'})
-                other_stats += f"**Bot {handlers.index(other_bot) + 1}**: U: {other_user_count}, G: {other_group_count} | "
+                other_stats.append(f"**Bot {handlers.index(other_bot) + 1}**: Users: {other_user_count}, Groups: {other_group_count}")
         
-        stats_message += other_stats.rstrip(" | ")
+        stats_message += "\n".join(other_stats)
         
         await event.reply(stats_message, file=AYU, buttons=[
             [Button.inline("ᴜsᴇʀs", data="user_stats"), Button.inline("ᴄʜᴀᴛs", data="group_stats")],
@@ -120,7 +114,6 @@ async def check_stats(event, bot):
     else:
         await event.reply("ʏᴏᴜ ᴅᴏ ɴᴏᴛ ʜᴀᴠᴇ ᴘᴇʀᴍɪssɪᴏɴ ᴛᴏ ᴜsᴇ ᴛʜɪs ᴍᴇɴᴜ.")
 
-# Callback query handler
 async def callback(event, bot):
     stats_collection = db_map[bot]['stats']
     data = event.data.decode('utf-8')
@@ -142,9 +135,8 @@ async def callback(event, bot):
             [Button.inline("ᴜsᴇʀs", data="user_stats"), Button.inline("ᴄʜᴀᴛs", data="group_stats")],
             [Button.inline("ᴏᴠᴇʀᴀʟʟ", data="overall_stats")]
         ]
-        await event.edit("⚔️ 𝗝𝗔𝗥𝗩𝗜𝗦 𝗕𝗢𝗧𝗦 𝗦𝗧𝗔𝗧𝗦 ⚔️", file=AYU, buttons=buttons)
+        await event.edit(stats_message "⚔️ 𝗝𝗔𝗥𝗩𝗜𝗦 𝗕𝗢𝗧𝗦 𝗦𝗧𝗔𝗧𝗦 ⚔️", file=AYU, buttons=buttons)
 
-# Broadcast command handler
 async def broadcast(event, bot):
     stats_collection = db_map[bot]['stats']
     if event.sender_id == OWNER_ID:
